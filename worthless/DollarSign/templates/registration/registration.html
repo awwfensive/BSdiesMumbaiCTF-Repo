@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORTHLESS.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: rgb(0, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        .container {
+            background-color: rgba(76, 0, 255, 0);
+            font-style:bold;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: aliceblue;
+            width: 350px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .inputContainer {
+            background-color: rgba(255, 0, 0, 0);
+            position: relative;
+            width: 100%;
+        }
+        .fInput {
+            width: 100%;
+            height: 50px;
+            border-radius: 3px;
+            border: 1px solid rgb(48, 45, 45);
+            background-color: black;
+            padding: 10px;
+            color: white;
+            transition: .1s;
+            margin-bottom: 15px;
+            font-style:bold;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .fInput:focus {
+            border: 1px rgb(255, 255, 255) solid;
+            outline: none;
+        }
+        .fInput:focus::placeholder {
+            color: rgb(255, 255, 255);
+        }
+        .submit {
+            width: 100%;
+            height: 50px;
+            border: none;
+            background-color: rgb(255, 0, 0);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-style:bold;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .submit:hover {
+            background-color: rgb(255, 255, 255);
+            color: black;
+        }
+        .con {
+            text-align: center;
+            color: rgb(111, 103, 103);
+            font-size: 14px;
+            font-family: sans-serif;
+            margin-top: 20px;
+        }
+        .con a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            font-weight: bold;
+            font-style:bold;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register on SPM</h2> <br>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="inputContainer">
+                <input class="fInput email" type="text" name="username" placeholder="Username" required>
+                <input class="fInput pass" type="password" name="password1" placeholder="Create a password" required>
+                <input class="fInput pass" type="password" name="password2" placeholder="Confirm password" required>
+                <button class="submit" type="submit">Register</button>
+            </div>
+            <div class="con">
+                <p>Already have an account?&nbsp;</p>
+                <a href="/login">Log in</a>
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>

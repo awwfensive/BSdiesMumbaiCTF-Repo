@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}
+WORTHLESS.
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Dashboard.</h2>
+    <hr>
+
+    <!-- 🔁 Export/Import Buttons -->
+    <div class="mb-3 d-flex align-items-center">
+        <form method="get" action="{% url 'export_portfolio' %}">
+            <button class="btn btn-outline-info btn-sm mr-2" type="submit">
+                <i class="fa-solid fa-download"></i> Export Portfolio
+            </button>
+        </form>
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'import_portfolio' %}">
+            {% csrf_token %}
+            <input type="file" name="file" accept=".pkl" required class="form-control-file d-inline-block mr-2">
+            <button class="btn btn-outline-warning btn-sm" type="submit">
+                <i class="fa-solid fa-upload"></i> Import Portfolio
+            </button>
+        </form>
+    </div>
+
+    <!-- Add Stock Form -->
+    <form method="POST" action="{% url 'portfolio' %}" class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Stock Ticker or Name" name="ticker">
+        </div>
+        <div class="form-group ml-2">
+            <input class="form-control" type="number" placeholder="Number of Shares" name="shares">
+        </div>
+        <div class="form-group ml-2">
+            <input class="form-control" type="date" placeholder="Purchase Date" name="purchase_date">
+        </div>
+        <button class="btn btn-success ml-2" type="submit">
+            <i class="fa-solid fa-circle-plus fa-xs" style="margin-right: 5px;"></i>Add Stock
+        </button>
+    </form>
+</div>
+
+<div class="container mt-4">
+    {% block messages %}
+        {% if messages %}
+            <div class="row">
+                <div class="col-md-6">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message|safe }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    <h4 class="mt-4">Current Net Stock Value: ${{ total_portfolio_value|default:"N/A"|floatformat:-2 }}</h4> <br>
+
+    {% if stockdata %}
+    <div class="table-responsive">
+        <table class="table table-striped" style="color: white;">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Company</th>
+                    <th>Shares</th>
+                    <th>Purchase Date</th>
+                    <th>Price</th>
+                    <th>Previous Close</th>
+                    <th>Market Cap</th>
+                    <th>PE Ratio</th>
+                    <th>52Wk High</th>
+                    <th>52Wk Low</th>
+                    <th>YTD Change</th>
+                    <th>Current Value</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stockdata %}
+                <tr>
+                    <td>{{ stock.symbol }}</td>
+                    <td>{{ stock.companyName }}</td>
+                    <td>{{ stock.shares }}</td>
+                    <td>{{ stock.purchase_date }}</td>
+                    <td>{{ stock.latestPrice }}</td>
+                    <td>{{ stock.previousClose }}</td>
+                    <td>{{ stock.marketCap }}</td>
+                    <td>{{ stock.peRatio }}</td>
+                    <td>{{ stock.week52High }}</td>
+                    <td>{{ stock.week52Low }}</td>
+                    <td>{{ stock.returnYTD }}</td>
+                    <td>{{ stock.current_value }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'delete_stock' stock.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm" type="submit">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a52f64c00d.js" crossorigin="anonymous"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black; /* Set background to black */
+            color: white; /* Set text color to white */
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        p {
+            text-align: center;
+            font-size: 25px;
+            color: #686868;
+        }
+    
+        /* Navbar styling */
+        .navbar {
+            background-color: #000000; /* Dark gray */
+        }
+
+        .navbar .nav-link {
+            color: #f8f9fa; /* Light gray for links */
+        }
+
+        .navbar .nav-link:hover {
+            color: #ffc107; /* Gold color on hover */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffc107; /* Gold for branding */
+        }
+
+        .navbar-brand:hover {
+            color: #ffffff; /* White on hover */
+        }
+
+        .form-inline .form-control {
+            width: 200px;
+        }
+
+        .nav-link, .btn-link {
+            cursor: pointer;
+        }
+
+        /* Logout button */
+	.logout-btn {
+            border: none;
+            background: none;
+            color: #888888;
+            padding: 0;
+            margin-top: 8.5px;
+        }
+
+        .logout-btn:hover {
+            color: #ffc107; /* Gold on hover */
+            text-decoration: underline;
+        }
+
+        /* Page content */
+        .container {
+            margin-top: 80px; /* Space for fixed navbar */
+        }
+    </style>
+
+    <!-- Page Title -->
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="{% url 'home' %}">WORTHLESS.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'portfolio' %}">PORTFOLIO</a>
+                </li>
+            </ul>
+
+		<form method="POST" action="{% url 'home' %}" class="form-inline ml-auto">
+                {% csrf_token %}
+                <div class="input-group input-group-sm">
+                    <div class="input-group-append">
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item">
+                    <span class="nav-link">{{ user.username }}
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="nav-link logout-btn" type="submit">LOGOUT</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
